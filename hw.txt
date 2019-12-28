@@ -1,0 +1,13 @@
+insert into coaches(id, first_name, last_name, phone_number, inn, sport_types) values 
+(6, 'Bolot', 'Akbalaev', '0773565456', 143456789, 1);
+
+insert into coaches(id, first_name, last_name, phone_number, inn, sport_types) values 
+(7, 'Belek', 'Kydyraliev', '0553565456', 743456789, 3);
+
+ 
+select * from coaches;
+
+select st.first_name , ct.last_name,t.time_of_visit,sp.sport_type
+from visits t
+join visitors st on t.visitors_name = st.id join coaches ct on ct.id=t.coach join sport_types sp on sp.id=ct.sport_types where sp.id=2
+order by t.time_of_visit desc;
