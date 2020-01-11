@@ -15,7 +15,6 @@ public class Main {
         System.out.println("Спислк всех групп:");
         db.getGroups();
         System.out.println();
-        System.out.println("ЗАДАЧА Д");
 
     }
 }
