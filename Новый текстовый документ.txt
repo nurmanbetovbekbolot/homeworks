@@ -1,0 +1,129 @@
+ÇÀÄÀ×À À)
+
+select coaches.first_name,sport_types.salary from coaches 
+join sport_types on coaches.sport_types = sport_types.id;
+
+
+select sum(sport_types.salary) from coaches 
+join sport_types on coaches.sport_types = sport_types.id;
+
+
+ÇÀÄÀ×À Â)
+
+select groups_2.id,count(groups_2.id),groups_2."name" from groups_2  
+join students_2 ON groups_2.id=students_2.group_id 
+group by groups_2.id,students_2.group_id
+having  groups_2.id=students_2.group_id;
+
+
+SELECT id,name FROM groups_2
+
+
+ÇÀÄÀ×À Ñ)
+
+create table people (
+	id serial primary key,
+	name varchar(50) not null,
+	age int 
+) ;
+
+
+create table countries (
+	id serial primary key,
+	name varchar(50) not null unique,
+	country_code varchar(20) not null unique,
+	population int not null,
+	president int references people(id)
+) ;
+
+
+create table cities(
+	id serial primary key,
+	name varchar(100) not null,
+	population not null,
+	people_id int references people(id),
+	country_id int references countries(id) not null
+);
+
+
+insert into people (name, age) values 
+('Azat Myrzakmatov', 30), ('Kylym Betenov', 45),('Anarbek Asanbekov', 22),('Akem Asakeev', 60),('Aziz Turgunbekov', 20),('Arstan Akmatov', 57);
+
+
+insert into countries (name,country_code,population, president) values 
+('Kyrgyzstan','+996',6000000, 2),('Qazaqstan','+796',200000000,3),('Uzbekistan','+856',15000000,8);
+
+
+insert into cities (name,population,people_id ,country_id) values 
+('Bishkek',1000000,1, 1),('Almaty',2000000,6, 2) , ('Tashkent',300000,5, 3);
+
+
+select * from cities where cities."name" like 'k%';
+
+
+select sum(population), country_id from cities group by country_id;
+
+ALTER TABLE countries ADD state_language VARCHAR(20) NULL ;
+
+
+ÇÀÄÀ×À Ä)
+
+create table university(
+id serial primary key,
+name varchar(70) not null unique
+);
+
+create table faculty(
+id serial primary key,
+name varchar(50) not null,
+university_id integer references university(id)
+);
+
+create table groups (
+id serial primary key,
+name varchar(50) not null,
+faculty_id integer references faculty(id),
+code varchar(30) not null unique
+);
+create table student(
+id serial primary key,
+name varchar(50) not null,
+group_id integer references "groups"(id),
+datebirth varchar(10) not null 
+);
+
+create table grade ( 
+ student_id int references student(id),
+ grade int,
+ subjects int references subjects(id)
+);
+
+create table subjects ( 
+ id serial primary key,
+name varchar(50) not null
+);
+
+
+insert into university(name) values ('KSUHTA'), ('AUCA'), ('IAU'), ('INAI.kg');
+
+insert into faculty(name, university_id) values ('BA', 1), ('IT', 1), ('Economics', 2), ('Politics', 2), ('English', 3);
+
+insert into groups(name, code, faculty_id) values ('AIN-1-17', '1-17', 2);
+
+insert into student(name, group_id, datebirth) values ('Dinara Osmonova', 1,'12/11/1999'),('Azat Myrzakmatov', 1,'30/10/1987'), ('Kylym Betenov',1,'05/12/1992');
+
+insert into grade(student_id, grade, subjects) values (4, 5,1),(5, 3,2),(6, 5,3),(4, 2,4);
+
+
+select avg(grade) 
+from grade 
+where student_id =4;
+
+
+select s.name, g."name",  f.name, u.name
+from student s
+join "groups" g on s.group_id = g.id
+join faculty f on g.faculty_id = f.id
+join university u on f.university_id = u.id;
+insert into subjects(name) values ('Math'),('English'),('Physics'),('Chemistry');
+
